@@ -10,7 +10,7 @@ use App\Entity\Character;
 
 class CharacterController extends AbstractController
 {
-    #[Route('/character', name: 'character')]
+    #[Route('/character', name: 'character', methods: ['GET', 'HEAD'])]
     public function index(): Response
     {
         return $this->json([
