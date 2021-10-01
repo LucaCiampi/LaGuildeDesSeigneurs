@@ -20,6 +20,11 @@ class Character
     /**
      * @ORM\Column(type="string", length=16)
      */
+    private $kind = 'Dame';
+
+    /**
+     * @ORM\Column(type="string", length=16)
+     */
     private $name = 'Anardil';
 
     /**
@@ -51,6 +56,11 @@ class Character
      * @ORM\Column(type="string", length=128, nullable=true)
      */
     private $image;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creation;
 
     public function getId(): ?int
     {
@@ -147,5 +157,29 @@ class Character
     public function toArray(): array
     {
         return get_object_vars($this);
+    }
+
+    public function getKind(): ?string
+    {
+        return $this->kind;
+    }
+
+    public function setKind(string $kind): self
+    {
+        $this->kind = $kind;
+
+        return $this;
+    }
+
+    public function getCreation(): ?\DateTimeInterface
+    {
+        return $this->creation;
+    }
+
+    public function setCreation(\DateTimeInterface $creation): self
+    {
+        $this->creation = $creation;
+
+        return $this;
     }
 }

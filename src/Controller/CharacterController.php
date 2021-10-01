@@ -22,7 +22,8 @@ class CharacterController extends AbstractController
     /**
      * // Fonctionne également dans le format dessus ^
      * @Route("/character/display", 
-     * name="character_display")
+     * name="character_display",
+     * methods={"GET","HEAD"})
      */
     public function display(): Response
     {
