@@ -29,14 +29,13 @@ class CharacterController extends AbstractController
 
     /**
      * // Fonctionne également dans le format dessus ^
-     * @Route("/character/display", 
+     * @Route("/character/display/{identifier}", 
      * name="character_display",
+     * requirements={"identifier": "^([a-z0-9]{40})$"},
      * methods={"GET","HEAD"})
      */
-    public function display(): Response
+    public function display(Character $character): Response
     {
-        $character = new Character();
-
         return new JsonResponse($character->toArray());
     }
 
