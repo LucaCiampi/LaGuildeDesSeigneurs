@@ -8,15 +8,21 @@ use function PHPUnit\Framework\assertTrue;
 
 class CharacterControllerTest extends WebTestCase
 {
+    private $client;
+
+    public function setUp(): void
+    {
+        $this->client = static::createClient();
+    }
+
     /**
      * Tests index redirection
      */
     public function testRedirectIndex(): void
     {
-        $client = static::createClient();
-        $client->request('GET', '/character');
+        $this->client->request('GET', '/character');
 
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     }
 
     /**
@@ -24,10 +30,9 @@ class CharacterControllerTest extends WebTestCase
      */
     public function testIndex(): void
     {
-        $client = static::createClient();
-        $client->request('GET', '/character/index');
+        $this->client->request('GET', '/character/index');
 
-        $this->assertJsonResponse($client->getResponse());
+        $this->assertJsonResponse($this->client->getResponse());
     }
 
     /**
@@ -35,10 +40,9 @@ class CharacterControllerTest extends WebTestCase
      */
     public function testDisplay(): void
     {
-        $client = static::createClient();
-        $client->request('GET', '/character/display/661858914ca042c04da73931d1ab7ebf0857b233');
+        $this->client->request('GET', '/character/display/661858914ca042c04da73931d1ab7ebf0857b233');
 
-        $this->assertJsonResponse($client->getResponse());
+        $this->assertJsonResponse($this->client->getResponse());
     }
 
     /**
