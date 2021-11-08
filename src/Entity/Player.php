@@ -48,6 +48,11 @@ class Player
     private $identifier;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $modification;
+
+    /**
      * Converts the entity in an array
      */
     public function toArray(): array
@@ -128,6 +133,18 @@ class Player
     public function setIdentifier(string $identifier): self
     {
         $this->identifier = $identifier;
+
+        return $this;
+    }
+
+    public function getModification(): ?\DateTimeInterface
+    {
+        return $this->modification;
+    }
+
+    public function setModification(?\DateTimeInterface $modification): self
+    {
+        $this->modification = $modification;
 
         return $this;
     }
