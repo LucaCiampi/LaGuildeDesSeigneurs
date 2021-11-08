@@ -14,12 +14,14 @@ class CharacterVoter extends Voter
     public const CHARACTER_DISPLAY = 'characterDisplay';
     public const CHARACTER_INDEX = 'characterIndex';
     public const CHARACTER_MODIFY= 'characterModify';
+    public const CHARACTER_DELETE= 'characterDelete';
 
     private const ATTRIBUTES = array(
         self::CHARACTER_CREATE,
         self::CHARACTER_DISPLAY,
         self::CHARACTER_INDEX,
         self::CHARACTER_MODIFY,
+        self::CHARACTER_DELETE,
     );
 
     protected function supports(string $attribute, $subject): bool
@@ -49,6 +51,10 @@ class CharacterVoter extends Voter
                 break;
             case self::CHARACTER_MODIFY:
                 return $this->canModify();
+                break;
+            case self::CHARACTER_DELETE:
+                return $this->canDelete();
+                break;
         }
         throw new LogicException('Invalid attribute : ' . $attribute);
     }
@@ -76,6 +82,15 @@ class CharacterVoter extends Voter
      * @return bool
      */
     public function canModify(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Checks if is allowed to delete
+     * @return bool
+     */
+    public function canDelete(): bool
     {
         return true;
     }

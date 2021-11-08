@@ -48,7 +48,7 @@ class CharacterService implements CharacterServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getAll()
+    public function getAll(): array
     {
         $charactersFinal = array();
         $characters = $this->characterRepository->findAll();
@@ -79,5 +79,15 @@ class CharacterService implements CharacterServiceInterface
         $this->em->flush();
 
         return $character;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete(Character $character): bool {
+        $this->em->remove($character);
+        $this->em->flush();
+
+        return true;
     }
 }

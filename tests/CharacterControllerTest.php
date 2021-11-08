@@ -9,6 +9,8 @@ use function PHPUnit\Framework\assertTrue;
 class CharacterControllerTest extends WebTestCase
 {
     private $client;
+    private $content;
+    private static $identifier;
 
     public function setUp(): void
     {
@@ -32,7 +34,19 @@ class CharacterControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/character/index');
 
-        $this->assertJsonResponse($this->client->getResponse());
+        $this->assertJsonResponse();
+    }
+
+    /**
+     * Tests create
+     */
+    public function testCreate()
+    {
+        $this->client->request('POST', '/character/create');
+
+        $this->assertJsonResponse();
+        $this->defineIdentifier();
+        $this->assertIdentifier();
     }
 
     /**
@@ -40,17 +54,19 @@ class CharacterControllerTest extends WebTestCase
      */
     public function testDisplay(): void
     {
-        $this->client->request('GET', '/character/display/661858914ca042c04da73931d1ab7ebf0857b233');
+        $this->client->request('GET', '/character/display/' . self::$identifier);
 
-        $this->assertJsonResponse($this->client->getResponse());
+        $this->assertJsonResponse();
     }
 
     /**
      * Asserts that a response is in JSON
      * @param $response
      */
-    public function assertJsonResponse($response): void
+    public function assertJsonResponse(): void
     {
+        $response = $this->client->getResponse();
+        $this->content = json_decode($response->getContent(), true, 50);
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), $response->headers);
     }
@@ -78,8 +94,38 @@ class CharacterControllerTest extends WebTestCase
      */
     public function testInexistingIdentifier()
     {
-        $this->client->request('GET', '/character/display/661858914ca042c04da73931d1ab7ebf085error');
+        $this->client->request('GET', '/character/display/' . self::$identifier);
 
         $this->assertError404();
+    }
+
+    /**
+     * Tests modify
+     */
+    public function testModify()
+    {
+        $this->client->request('PUT', 'character/modify/' . self::$identifier);
+
+        $this->assertJsonResponse();
+    }
+
+    /**
+     * Tests modify
+     */
+    public function testDelete()
+    {
+        $this->client->request('DELETE', 'character/delete/' . self::$identifier);
+
+        $this->assertJsonResponse();
+    }
+
+    public function defineIdentifier()
+    {
+        self::$identifier = $this->content['identifier'];
+    }
+
+    public function assertIdentifier()
+    {
+        $this->assertArrayHasKey('identifier', $this->content);
     }
 }

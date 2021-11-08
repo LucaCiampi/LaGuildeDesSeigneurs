@@ -16,7 +16,12 @@ interface CharacterServiceInterface
     public function getAll();
     
     /**
-     * Gets all the characters
+     * Modifies the character
      */
     public function modify(Character $character);
+    
+    /**
+     * Deletes the character
+     */
+    public function delete(Character $character);
 }
