@@ -62,14 +62,24 @@ class CharacterControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/character/display/badIdentifier');
 
-        $this->assertError404($this->client->getResponse()->getStatusCode());
+        $this->assertError404();
     }
 
     /**
      * Asserts that Response returns 404
      */
-    public function assertError404($statusCode)
+    public function assertError404()
     {
-        $this->assertEquals(404, $statusCode);
+        $this->assertEquals(404, $this->client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * Tests if an identifier is inexisting
+     */
+    public function testInexistingIdentifier()
+    {
+        $this->client->request('GET', '/character/display/661858914ca042c04da73931d1ab7ebf085error');
+
+        $this->assertError404();
     }
 }
