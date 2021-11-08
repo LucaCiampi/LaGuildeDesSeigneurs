@@ -59,4 +59,25 @@ class CharacterService implements CharacterServiceInterface
 
         return $charactersFinal;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function modify(Character $character): Character {
+        $character
+            ->setKind('Dame')
+            ->setName('Eldalote')
+            ->setSurname('Fleur eflique')
+            ->setCaste('Elfe')
+            ->setKnowledge('Arts')
+            ->setIntelligence(120)
+            ->setLife(12)
+            ->setImage('/images/eldalote.jpg')
+        ;
+
+        $this->em->persist($character);
+        $this->em->flush();
+
+        return $character;
+    }
 }

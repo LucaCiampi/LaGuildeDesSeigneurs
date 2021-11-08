@@ -1,6 +1,8 @@
 <?php
 namespace App\Service;
 
+use App\Entity\Character;
+
 interface CharacterServiceInterface
 {
     /**
@@ -12,4 +14,9 @@ interface CharacterServiceInterface
      * Gets all the characters
      */
     public function getAll();
+    
+    /**
+     * Gets all the characters
+     */
+    public function modify(Character $character);
 }
