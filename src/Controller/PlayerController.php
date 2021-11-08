@@ -11,14 +11,14 @@ use App\Service\PlayerServiceInterface;
 
 class PlayerController extends AbstractController
 {
-    private $characterService;
+    private $playerService;
 
-    public function __construct(PlayerServiceInterface $characterService)
+    public function __construct(PlayerServiceInterface $playerService)
     {
-        $this->characterService = $characterService;
+        $this->playerService = $playerService;
     }
 
-    // #[Route('/character', name: 'character', methods: ['GET', 'HEAD'])]
+    // #[Route('/player', name: 'player', methods: ['GET', 'HEAD'])]
     // public function index(): Response
     // {
     //     return $this->json([
@@ -29,87 +29,87 @@ class PlayerController extends AbstractController
 
     /**
      * // Fonctionne également dans le format dessus ^
-     * @Route("/character/display/{identifier}", 
-     * name="character_display",
+     * @Route("/player/display/{identifier}", 
+     * name="player_display",
      * requirements={"identifier": "^([a-z0-9]{40})$"},
      * methods={"GET","HEAD"}
      * )
      */
-    public function display(Player $character): Response
+    public function display(Player $player): Response
     {
-        $this->denyAccessUnlessGranted('characterDisplay', $character);
+        $this->denyAccessUnlessGranted('playerDisplay', $player);
 
-        return new JsonResponse($character->toArray());
+        return new JsonResponse($player->toArray());
     }
 
     /**
      * Creates new Player
      * @return JsonResponse
      */
-    #[Route('/character/create', name: 'character_create', methods: ['POST', 'HEAD'])]
+    #[Route('/player/create', name: 'player_create', methods: ['POST', 'HEAD'])]
     public function create(): JsonResponse
     {
-        $this->denyAccessUnlessGranted('characterCreate', null);
+        $this->denyAccessUnlessGranted('playerCreate', null);
 
-        $character = $this->characterService->create();
+        $player = $this->playerService->create();
 
-        return new JsonResponse($character->toArray());
+        return new JsonResponse($player->toArray());
     }
 
     /**
-     * @Route("/character", 
-     * name="character_redirect_index",
+     * @Route("/player", 
+     * name="player_redirect_index",
      * methods={"GET","HEAD"}
      * )
      */
     public function redirectIndex()
     {
-        return $this->redirectToRoute('character_index');
+        return $this->redirectToRoute('player_index');
     }
 
     /**
-     * @Route("/character/index", 
-     * name="character_index",
+     * @Route("/player/index", 
+     * name="player_index",
      * methods={"GET","HEAD"}
      * )
      */
     public function index(): JsonResponse
     {
-        $this->denyAccessUnlessGranted('characterIndex', null);
+        $this->denyAccessUnlessGranted('playerIndex', null);
 
-        $characters = $this->characterService->getAll();
+        $players = $this->playerService->getAll();
 
-        return new JsonResponse($characters);
+        return new JsonResponse($players);
     }
 
     /**
-     * @Route("/character/modify/{identifier}", 
-     * name="character_modify",
+     * @Route("/player/modify/{identifier}", 
+     * name="player_modify",
      * requirements={"identifier": "^([a-z0-9]{40})$"},
      * methods={"PUT","HEAD"}
      * )
      */
-    public function modify(Player $character): JsonResponse
+    public function modify(Player $player): JsonResponse
     {
-        $this->denyAccessUnlessGranted('characterModify', $character);
+        $this->denyAccessUnlessGranted('playerModify', $player);
 
-        $character = $this->characterService->modify($character);
+        $player = $this->playerService->modify($player);
 
-        return new JsonResponse($character);
+        return new JsonResponse($player);
     }
 
     /**
-     * @Route("/character/delete/{identifier}", 
-     * name="character_delete",
+     * @Route("/player/delete/{identifier}", 
+     * name="player_delete",
      * requirements={"identifier": "^([a-z0-9]{40})$"},
      * methods={"DELETE","HEAD"}
      * )
      */
-    public function delete(Player $character): JsonResponse
+    public function delete(Player $player): JsonResponse
     {
-        $this->denyAccessUnlessGranted('characterDelete', $character);
+        $this->denyAccessUnlessGranted('playerDelete', $player);
 
-        $response = $character = $this->characterService->delete($character);
+        $response = $player = $this->playerService->delete($player);
 
         return new JsonResponse(array('delete' => $response));
     }
