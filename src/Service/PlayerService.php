@@ -65,6 +65,7 @@ class PlayerService implements PlayerServiceInterface
             ->setLastname('Lachaud')
             ->setEmail('jacques.lachaud@hotmail.fr')
             ->setMirian(222)
+            ->setModification(new DateTime())
         ;
 
         $this->em->persist($player);
