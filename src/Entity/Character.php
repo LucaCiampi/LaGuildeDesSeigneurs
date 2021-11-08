@@ -68,6 +68,14 @@ class Character
      */
     private $identifier;
 
+    /**
+     * Converts the entity in an array
+     */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -155,14 +163,6 @@ class Character
         $this->image = $image;
 
         return $this;
-    }
-
-    /**
-     * Converts the entity in an array
-     */
-    public function toArray(): array
-    {
-        return get_object_vars($this);
     }
 
     public function getKind(): ?string

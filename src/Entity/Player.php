@@ -37,6 +37,14 @@ class Player
      */
     private $mirian = 120;
 
+    /**
+     * Converts the entity in an array
+     */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
