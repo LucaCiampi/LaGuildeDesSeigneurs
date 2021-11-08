@@ -38,6 +38,16 @@ class Player
     private $mirian = 120;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creation;
+
+    /**
+     * @ORM\Column(type="string", length=40)
+     */
+    private $identifier;
+
+    /**
      * Converts the entity in an array
      */
     public function toArray(): array
@@ -94,6 +104,30 @@ class Player
     public function setMirian(?int $mirian): self
     {
         $this->mirian = $mirian;
+
+        return $this;
+    }
+
+    public function getCreation(): ?\DateTimeInterface
+    {
+        return $this->creation;
+    }
+
+    public function setCreation(\DateTimeInterface $creation): self
+    {
+        $this->creation = $creation;
+
+        return $this;
+    }
+
+    public function getIdentifier(): ?string
+    {
+        return $this->identifier;
+    }
+
+    public function setIdentifier(string $identifier): self
+    {
+        $this->identifier = $identifier;
 
         return $this;
     }

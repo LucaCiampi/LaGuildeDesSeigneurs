@@ -66,12 +66,12 @@ class CharacterService implements CharacterServiceInterface
     public function modify(Character $character): Character {
         $character
             ->setKind('Dame')
-            ->setName('Eldalote')
-            ->setSurname('Fleur eflique')
+            ->setName('EldaloteModified')
+            ->setSurname('Fleur terrible')
             ->setCaste('Elfe')
             ->setKnowledge('Arts')
-            ->setIntelligence(120)
-            ->setLife(12)
+            ->setIntelligence(130)
+            ->setLife(14)
             ->setImage('/images/eldalote.jpg')
         ;
 

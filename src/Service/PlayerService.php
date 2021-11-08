@@ -31,6 +31,8 @@ class PlayerService implements PlayerServiceInterface
             ->setLastname('Labotte')
             ->setEmail('theo.labotte@hotmail.fr')
             ->setMirian(222)
+            ->setCreation(new DateTime())
+            ->setIdentifier(hash('sha1', uniqid()))
         ;
 
         $this->em->persist($player);
@@ -59,9 +61,9 @@ class PlayerService implements PlayerServiceInterface
      */
     public function modify(Player $player): Player {
         $player
-            ->setFirstname('Théo')
-            ->setLastname('Labotte')
-            ->setEmail('theo.labotte@hotmail.fr')
+            ->setFirstname('Jacques')
+            ->setLastname('Lachaud')
+            ->setEmail('jacques.lachaud@hotmail.fr')
             ->setMirian(222)
         ;
 
