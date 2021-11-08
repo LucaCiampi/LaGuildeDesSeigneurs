@@ -37,7 +37,7 @@ class CharacterController extends AbstractController
     public function display(Character $character): Response
     {
         $this->denyAccessUnlessGranted('characterDisplay', $character);
-        
+
         return new JsonResponse($character->toArray());
     }
 
@@ -48,6 +48,8 @@ class CharacterController extends AbstractController
     #[Route('/character/create', name: 'character_create', methods: ['POST', 'HEAD'])]
     public function create(): JsonResponse
     {
+        $this->denyAccessUnlessGranted('characterCreate', null);
+
         $character = $this->characterService->create();
 
         return new JsonResponse($character->toArray());
