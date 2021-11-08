@@ -54,4 +54,22 @@ class CharacterControllerTest extends WebTestCase
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), $response->headers);
     }
+
+    /**
+     * Tests a bad identifier
+     */
+    public function testBadIdentifier()
+    {
+        $this->client->request('GET', '/character/display/badIdentifier');
+
+        $this->assertError404($this->client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * Asserts that Response returns 404
+     */
+    public function assertError404($statusCode)
+    {
+        $this->assertEquals(404, $statusCode);
+    }
 }
