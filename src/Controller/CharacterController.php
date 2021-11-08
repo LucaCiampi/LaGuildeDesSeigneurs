@@ -36,6 +36,8 @@ class CharacterController extends AbstractController
      */
     public function display(Character $character): Response
     {
+        $this->denyAccessUnlessGranted('characterDisplay', $character);
+        
         return new JsonResponse($character->toArray());
     }
 
