@@ -9,12 +9,23 @@ use function PHPUnit\Framework\assertTrue;
 class CharacterControllerTest extends WebTestCase
 {
     /**
+     * Tests index redirection
+     */
+    public function testRedirectIndex(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/character');
+
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+    }
+
+    /**
      * Tests index
      */
     public function testIndex(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/character');
+        $client->request('GET', '/character/index');
 
         $this->assertJsonResponse($client->getResponse());
     }
@@ -25,7 +36,7 @@ class CharacterControllerTest extends WebTestCase
     public function testDisplay(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/character/display/34057e7ac1089cf22a73d5c2b8a4d176c9463725');
+        $client->request('GET', '/character/display/661858914ca042c04da73931d1ab7ebf0857b233');
 
         $this->assertJsonResponse($client->getResponse());
     }
