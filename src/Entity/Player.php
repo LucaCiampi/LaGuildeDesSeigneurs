@@ -15,27 +15,27 @@ class Player
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private $id = 0;
 
     /**
      * @ORM\Column(type="string", length=64)
      */
-    private $firstname;
+    private $firstname = 'Luca';
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
      */
-    private $lastname;
+    private $lastname = 'Ciampi';
 
     /**
      * @ORM\Column(type="string", length=128, nullable=true)
      */
-    private $email;
+    private $email = 'luca.ciampi@hotmail.fr';
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $mirian;
+    private $mirian = 120;
 
     public function getId(): ?int
     {
