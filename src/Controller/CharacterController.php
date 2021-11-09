@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Character;
 use App\Service\CharacterServiceInterface;
 
@@ -47,11 +48,11 @@ class CharacterController extends AbstractController
      * @return JsonResponse
      */
     #[Route('/character/create', name: 'character_create', methods: ['POST', 'HEAD'])]
-    public function create(): JsonResponse
+    public function create(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('characterCreate', null);
 
-        $character = $this->characterService->create();
+        $character = $this->characterService->create($request->getContent());
 
         return new JsonResponse($character->toArray());
     }

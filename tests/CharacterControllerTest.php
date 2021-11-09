@@ -52,7 +52,15 @@ class CharacterControllerTest extends WebTestCase
      */
     public function testCreate()
     {
-        $this->client->request('POST', '/character/create');
+        $this->client->request(
+            'POST',
+            '/character/create',
+            array(), // parameters
+            array(), // files
+            array('CONTENT_TYPE' => 'application/json'), //server
+            '{"kind":"Dame", "name":"Eldalote", "surname":"Fleur Elfique", 
+                "caste":"Elfe","knowledge":"Arts","intelligence":120,"life":12,"image":"/images/eldalote.jpg"}'
+        );
 
         $this->assertJsonResponse();
         $this->defineIdentifier();
@@ -135,11 +143,11 @@ class CharacterControllerTest extends WebTestCase
     public function testImages()
     {
         //tests without kind
-        $this->client->request('GET', 'character/images/3');
+        $this->client->request('GET', '/character/images/3');
         $this->assertJsonResponse();
 
         //tests with kind
-        $this->client->request('GET', 'character/images/ennemis/2');
+        $this->client->request('GET', '/character/images/ennemis/2');
         $this->assertJsonResponse();
     }
 }
