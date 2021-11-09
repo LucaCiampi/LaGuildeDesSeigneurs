@@ -28,11 +28,6 @@ interface CharacterServiceInterface
     /**
      * Gets images randomly
      */
-    public function getImages(int $number);
-
-    /**
-     * Gets images by kind
-     */
-    public function getImagesByKind(string $kind, int $number);
+    public function getImages(int $number, ?string $kind = null);
 
 }

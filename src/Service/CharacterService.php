@@ -96,7 +96,7 @@ class CharacterService implements CharacterServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getImages(int $number)
+    public function getImages(int $number, ?string $kind = null)
     {
         $folder = __DIR__ . '/../../public/images/';
 
@@ -108,30 +108,9 @@ class CharacterService implements CharacterServiceInterface
             ->sortByName()
         ;
 
-        $images = array();
-        foreach ($finder as $file) {
-            $images[] = '/images/' . str_replace('\\', '', $file->getRelativePathname());
+        if (null !== $kind) {
+            $finder->path('/' . $kind . '/');
         }
-        shuffle($images);
-
-        return array_slice($images, 0, $number, true);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getImagesByKind(string $kind, int $number)
-    {
-        $folder = __DIR__ . '/../../public/images/';
-
-        $finder = new Finder();
-        $finder
-            ->files()
-            ->name($kind . '-*.jpg')
-            ->in($folder)
-            ->notPath('/cartes/')
-            ->sortByName()
-        ;
 
         $images = array();
         foreach ($finder as $file) {

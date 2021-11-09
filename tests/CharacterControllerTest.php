@@ -17,6 +17,16 @@ class CharacterControllerTest extends WebTestCase
         $this->client = static::createClient();
     }
 
+    public function defineIdentifier()
+    {
+        self::$identifier = $this->content['identifier'];
+    }
+
+    public function assertIdentifier()
+    {
+        $this->assertArrayHasKey('identifier', $this->content);
+    }
+
     /**
      * Tests index redirection
      */
@@ -119,13 +129,17 @@ class CharacterControllerTest extends WebTestCase
         $this->assertJsonResponse();
     }
 
-    public function defineIdentifier()
+    /**
+     * Tests images
+     */
+    public function testImages()
     {
-        self::$identifier = $this->content['identifier'];
-    }
+        //tests without kind
+        $this->client->request('GET', 'character/images/3');
+        $this->assertJsonResponse();
 
-    public function assertIdentifier()
-    {
-        $this->assertArrayHasKey('identifier', $this->content);
+        //tests with kind
+        $this->client->request('GET', 'character/images/dames/3');
+        $this->assertJsonResponse();
     }
 }
