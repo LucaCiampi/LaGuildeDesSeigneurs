@@ -68,14 +68,20 @@ class PlayerService implements PlayerServiceInterface
      */
     public function isEntityFilled(Player $player)
     {
-        if (null === $player->getFirstname() ||
-            null === $player->getLastname() ||
-            null === $player->getEmail() ||
-            null === $player->getMirian() ||
-            null === $player->getCreation() ||
-            null === $player->getModification()) {
-            throw new UnprocessableEntityHttpException('Missing data for Entity -> ' . json_encode($player->toArray()));
+        $errors = $this->validator->validate($player);
+
+        if (count($errors) > 0) {
+            throw new UnprocessableEntityHttpException((string) $errors . 'Missing data for Entity -> ' . json_encode($character->toArray()));
         }
+
+        // if (null === $player->getFirstname() ||
+        //     null === $player->getLastname() ||
+        //     null === $player->getEmail() ||
+        //     null === $player->getMirian() ||
+        //     null === $player->getCreation() ||
+        //     null === $player->getModification()) {
+        //     throw new UnprocessableEntityHttpException('Missing data for Entity -> ' . json_encode($player->toArray()));
+        // }
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PlayerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="players")
@@ -20,16 +21,29 @@ class Player
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *  min = 3,
+     *  max = 64,
+     * )
      */
     private $firstname = 'Luca';
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true)
+     * @Assert\Length(
+     *  min = 3,
+     *  max = 64,
+     * )
      */
     private $lastname = 'Ciampi';
 
     /**
      * @ORM\Column(type="string", length=128, nullable=true)
+     * @Assert\Length(
+     *  min = 3,
+     *  max = 128,
+     * )
      */
     private $email = 'luca.ciampi@hotmail.fr';
 
@@ -45,6 +59,10 @@ class Player
 
     /**
      * @ORM\Column(type="string", length=40)
+     * @Assert\Length(
+     *  min = 40,
+     *  max = 40,
+     * )
      */
     private $identifier;
 

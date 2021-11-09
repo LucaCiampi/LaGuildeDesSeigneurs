@@ -22,8 +22,7 @@ class CharacterService implements CharacterServiceInterface
         CharacterRepository $characterRepository,
         EntityManagerInterface $em,
         FormFactoryInterface $formFactory
-        )
-    {
+    ) {
         $this->characterRepository = $characterRepository;
         $this->em = $em;
         $this->formFactory = $formFactory;
@@ -36,8 +35,7 @@ class CharacterService implements CharacterServiceInterface
         $character
             ->setIdentifier(hash('sha1', uniqid()))
             ->setCreation(new DateTime())
-            ->setModification(new DateTime())
-        ;
+            ->setModification(new DateTime());
         $this->submit($character, CharacterType::class, $data);
         $this->isEntityFilled($character);
 
@@ -50,14 +48,14 @@ class CharacterService implements CharacterServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function modify(Character $character, string $data): Character {
+    public function modify(Character $character, string $data): Character
+    {
         $this->submit($character, CharacterType::class, $data);
         $this->isEntityFilled($character);
-        
+
         $character
-            ->setModification(new DateTime())
-        ;
-        
+            ->setModification(new DateTime());
+
         $this->em->persist($character);
         $this->em->flush();
 
@@ -69,16 +67,21 @@ class CharacterService implements CharacterServiceInterface
      */
     public function isEntityFilled(Character $character)
     {
-        if (null === $character->getKind() ||
-            null === $character->getName() ||
-            null === $character->getSurname() ||
-            null === $character->getIdentifier() ||
-            null === $character->getCreation() ||
-            null === $character->getModification()) {
-            throw new UnprocessableEntityHttpException('Missing data for Entity -> ' . json_encode($character->toArray()));
+        $errors = $this->validator->validate($character);
+
+        if (count($errors) > 0) {
+            throw new UnprocessableEntityHttpException((string) $errors . 'Missing data for Entity -> ' . json_encode($character->toArray()));
         }
+        // if (null === $character->getKind() ||
+        //     null === $character->getName() ||
+        //     null === $character->getSurname() ||
+        //     null === $character->getIdentifier() ||
+        //     null === $character->getCreation() ||
+        //     null === $character->getModification()) {
+        //     throw new UnprocessableEntityHttpException('Missing data for Entity -> ' . json_encode($character->toArray()));
+        // }
     }
-   
+
     /**
      * {@inheritdoc}
      */
@@ -93,7 +96,7 @@ class CharacterService implements CharacterServiceInterface
 
         //Submits form
         $form = $this->formFactory->create($formName, $character, ['csrf_protection' => false]);
-        $form->submit($dataArray, false);//With false, only submitted fields are validated
+        $form->submit($dataArray, false); //With false, only submitted fields are validated
 
         //Gets errors
         $errors = $form->getErrors();
@@ -120,7 +123,8 @@ class CharacterService implements CharacterServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function delete(Character $character): bool {
+    public function delete(Character $character): bool
+    {
         $this->em->remove($character);
         $this->em->flush();
 
@@ -139,8 +143,7 @@ class CharacterService implements CharacterServiceInterface
             ->files()
             ->in($folder)
             ->notPath('/cartes/')
-            ->sortByName()
-        ;
+            ->sortByName();
 
         if (null !== $kind) {
             $finder->path('/' . $kind . '/');
