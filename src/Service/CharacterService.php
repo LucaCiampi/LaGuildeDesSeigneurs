@@ -50,6 +50,23 @@ class CharacterService implements CharacterServiceInterface
     /**
      * {@inheritdoc}
      */
+    public function modify(Character $character, string $data): Character {
+        $this->submit($character, CharacterType::class, $data);
+        $this->isEntityFilled($character);
+        
+        $character
+            ->setModification(new DateTime())
+        ;
+
+        $this->em->persist($character);
+        $this->em->flush();
+
+        return $character;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function isEntityFilled(Character $character)
     {
         if (null === $character->getKind() ||
@@ -98,28 +115,6 @@ class CharacterService implements CharacterServiceInterface
         }
 
         return $charactersFinal;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function modify(Character $character): Character {
-        $character
-            ->setKind('Dame')
-            ->setName('EldaloteModified')
-            ->setSurname('Fleur terrible')
-            ->setCaste('Elfe')
-            ->setKnowledge('Arts')
-            ->setIntelligence(130)
-            ->setLife(14)
-            ->setImage('/images/eldalote.jpg')
-            ->setModification(new DateTime())
-        ;
-
-        $this->em->persist($character);
-        $this->em->flush();
-
-        return $character;
     }
 
     /**

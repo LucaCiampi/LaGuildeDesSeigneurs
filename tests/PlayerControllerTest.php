@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 use function PHPUnit\Framework\assertTrue;
 
-class CharacterControllerTest extends WebTestCase
+class PlayerControllerTest extends WebTestCase
 {
     private $client;
     private $content;
@@ -32,7 +32,7 @@ class CharacterControllerTest extends WebTestCase
      */
     public function testRedirectIndex(): void
     {
-        $this->client->request('GET', '/character');
+        $this->client->request('GET', '/player');
 
         $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
     }
@@ -42,7 +42,7 @@ class CharacterControllerTest extends WebTestCase
      */
     public function testIndex(): void
     {
-        $this->client->request('GET', '/character/index');
+        $this->client->request('GET', '/player/index');
 
         $this->assertJsonResponse();
     }
@@ -54,12 +54,12 @@ class CharacterControllerTest extends WebTestCase
     {
         $this->client->request(
             'POST',
-            '/character/create',
+            '/player/create',
             array(), // parameters
             array(), // files
             array('CONTENT_TYPE' => 'application/json'), //server
-            '{"kind":"Dame", "name":"Eldalote", "surname":"Fleur Elfique", 
-                "caste":"Elfe","knowledge":"Arts","intelligence":120,"life":12,"image":"/images/eldalote.jpg"}'
+            '{"firstname":"Dame", "lastname":"Eldalote", "email":"luca.ciampi@hotmail.fr", 
+                "mirian":120}'
         );
 
         $this->assertJsonResponse();
@@ -74,12 +74,12 @@ class CharacterControllerTest extends WebTestCase
     {
         $this->client->request(
             'PUT',
-            '/character/modify/' . self::$identifier,
+            '/player/modify/' . self::$identifier,
             array(), // parameters
             array(), // files
             array('CONTENT_TYPE' => 'application/json'), //server
-            '{"kind":"Seigneur", "name":"Gorthol", "surname":"Heaume de terreur", 
-                "caste":"Chevalier","knowledge":"Diplomatie","intelligence":110,"life":13,"image":"/images/gorthol.jpg"}'
+            '{"firstname":"Dame", "lastname":"Eldalote", "email":"luca.ciampi@hotmail.fr", 
+                "mirian":120}'
         );
 
         $this->assertJsonResponse();
@@ -91,7 +91,7 @@ class CharacterControllerTest extends WebTestCase
      */
     public function testDisplay(): void
     {
-        $this->client->request('GET', '/character/display/' . self::$identifier);
+        $this->client->request('GET', '/player/display/' . self::$identifier);
 
         $this->assertJsonResponse();
     }
@@ -113,7 +113,7 @@ class CharacterControllerTest extends WebTestCase
      */
     public function testBadIdentifier()
     {
-        $this->client->request('GET', '/character/display/badIdentifier');
+        $this->client->request('GET', '/player/display/badIdentifier');
 
         $this->assertError404();
     }
@@ -131,7 +131,7 @@ class CharacterControllerTest extends WebTestCase
      */
     public function testInexistingIdentifier()
     {
-        $this->client->request('GET', '/character/display/error');
+        $this->client->request('GET', '/player/display/error');
 
         $this->assertError404();
     }
@@ -141,7 +141,7 @@ class CharacterControllerTest extends WebTestCase
      */
     public function testDelete()
     {
-        $this->client->request('DELETE', 'character/delete/' . self::$identifier);
+        $this->client->request('DELETE', 'player/delete/' . self::$identifier);
 
         $this->assertJsonResponse();
     }
@@ -152,11 +152,11 @@ class CharacterControllerTest extends WebTestCase
     public function testImages()
     {
         //tests without kind
-        $this->client->request('GET', '/character/images/3');
+        $this->client->request('GET', '/player/images/3');
         $this->assertJsonResponse();
 
         //tests with kind
-        $this->client->request('GET', '/character/images/ennemis/2');
+        $this->client->request('GET', '/player/images/ennemis/2');
         $this->assertJsonResponse();
     }
 }

@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Player;
 use App\Service\PlayerServiceInterface;
 
@@ -47,13 +48,29 @@ class PlayerController extends AbstractController
      * @return JsonResponse
      */
     #[Route('/player/create', name: 'player_create', methods: ['POST', 'HEAD'])]
-    public function create(): JsonResponse
+    public function create(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('playerCreate', null);
 
-        $player = $this->playerService->create();
+        $player = $this->playerService->create($request->getContent());
 
         return new JsonResponse($player->toArray());
+    }
+
+    /**
+     * @Route("/player/modify/{identifier}", 
+     * name="player_modify",
+     * requirements={"identifier": "^([a-z0-9]{40})$"},
+     * methods={"PUT","HEAD"}
+     * )
+     */
+    public function modify(Player $player, Request $request): JsonResponse
+    {
+        $this->denyAccessUnlessGranted('playerModify', $player);
+
+        $player = $this->playerService->modify($player, $request->getContent());
+
+        return new JsonResponse($player);
     }
 
     /**
@@ -80,22 +97,6 @@ class PlayerController extends AbstractController
         $players = $this->playerService->getAll();
 
         return new JsonResponse($players);
-    }
-
-    /**
-     * @Route("/player/modify/{identifier}", 
-     * name="player_modify",
-     * requirements={"identifier": "^([a-z0-9]{40})$"},
-     * methods={"PUT","HEAD"}
-     * )
-     */
-    public function modify(Player $player): JsonResponse
-    {
-        $this->denyAccessUnlessGranted('playerModify', $player);
-
-        $player = $this->playerService->modify($player);
-
-        return new JsonResponse($player);
     }
 
     /**

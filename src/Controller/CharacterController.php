@@ -58,6 +58,22 @@ class CharacterController extends AbstractController
     }
 
     /**
+     * @Route("/character/modify/{identifier}", 
+     * name="character_modify",
+     * requirements={"identifier": "^([a-z0-9]{40})$"},
+     * methods={"PUT","HEAD"}
+     * )
+     */
+    public function modify(Request $request, Character $character): JsonResponse
+    {
+        $this->denyAccessUnlessGranted('characterModify', $character);
+
+        $character = $this->characterService->modify($character, $request->getContent());
+
+        return new JsonResponse($character);
+    }
+
+    /**
      * @Route("/character", 
      * name="character_redirect_index",
      * methods={"GET","HEAD"}
@@ -81,22 +97,6 @@ class CharacterController extends AbstractController
         $characters = $this->characterService->getAll();
 
         return new JsonResponse($characters);
-    }
-
-    /**
-     * @Route("/character/modify/{identifier}", 
-     * name="character_modify",
-     * requirements={"identifier": "^([a-z0-9]{40})$"},
-     * methods={"PUT","HEAD"}
-     * )
-     */
-    public function modify(Character $character): JsonResponse
-    {
-        $this->denyAccessUnlessGranted('characterModify', $character);
-
-        $character = $this->characterService->modify($character);
-
-        return new JsonResponse($character);
     }
 
     /**
