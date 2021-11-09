@@ -104,7 +104,7 @@ class CharacterControllerTest extends WebTestCase
      */
     public function testInexistingIdentifier()
     {
-        $this->client->request('GET', '/character/display/' . self::$identifier);
+        $this->client->request('GET', '/character/display/error');
 
         $this->assertError404();
     }
@@ -139,7 +139,7 @@ class CharacterControllerTest extends WebTestCase
         $this->assertJsonResponse();
 
         //tests with kind
-        $this->client->request('GET', 'character/images/dames/3');
+        $this->client->request('GET', 'character/images/ennemis/2');
         $this->assertJsonResponse();
     }
 }
