@@ -72,6 +72,20 @@ class PlayerControllerTest extends WebTestCase
      */
     public function testModify()
     {
+        // Partial
+        $this->client->request(
+            'PUT',
+            '/player/modify/' . self::$identifier,
+            array(), // parameters
+            array(), // files
+            array('CONTENT_TYPE' => 'application/json'), //server
+            '{"firstname":"Dame", "lastname":"Eldalote"}'
+        );
+
+        $this->assertJsonResponse();
+        $this->assertIdentifier();
+        
+        // Whole content
         $this->client->request(
             'PUT',
             '/player/modify/' . self::$identifier,

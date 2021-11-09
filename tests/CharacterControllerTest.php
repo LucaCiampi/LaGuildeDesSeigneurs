@@ -72,6 +72,20 @@ class CharacterControllerTest extends WebTestCase
      */
     public function testModify()
     {
+        // Partial
+        $this->client->request(
+            'PUT',
+            '/character/modify/' . self::$identifier,
+            array(), // parameters
+            array(), // files
+            array('CONTENT_TYPE' => 'application/json'), //server
+            '{"kind":"Seigneur", "name":"Gorthol", "surname":"Heaume de terreur"}'
+        );
+
+        $this->assertJsonResponse();
+        $this->assertIdentifier();
+
+        // Whole
         $this->client->request(
             'PUT',
             '/character/modify/' . self::$identifier,
