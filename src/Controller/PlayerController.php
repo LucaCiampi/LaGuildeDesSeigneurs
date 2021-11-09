@@ -70,7 +70,7 @@ class PlayerController extends AbstractController
 
         $player = $this->playerService->modify($player, $request->getContent());
 
-        return new JsonResponse($player);
+        return new JsonResponse($player->toArray());
     }
 
     /**

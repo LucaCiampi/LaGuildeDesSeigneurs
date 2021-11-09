@@ -141,22 +141,8 @@ class PlayerControllerTest extends WebTestCase
      */
     public function testDelete()
     {
-        $this->client->request('DELETE', 'player/delete/' . self::$identifier);
+        $this->client->request('DELETE', '/player/delete/' . self::$identifier);
 
-        $this->assertJsonResponse();
-    }
-
-    /**
-     * Tests images
-     */
-    public function testImages()
-    {
-        //tests without kind
-        $this->client->request('GET', '/player/images/3');
-        $this->assertJsonResponse();
-
-        //tests with kind
-        $this->client->request('GET', '/player/images/ennemis/2');
         $this->assertJsonResponse();
     }
 }

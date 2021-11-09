@@ -70,7 +70,7 @@ class CharacterController extends AbstractController
 
         $character = $this->characterService->modify($character, $request->getContent());
 
-        return new JsonResponse($character);
+        return new JsonResponse($character->toArray());
     }
 
     /**

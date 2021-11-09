@@ -57,7 +57,7 @@ class CharacterService implements CharacterServiceInterface
         $character
             ->setModification(new DateTime())
         ;
-
+        
         $this->em->persist($character);
         $this->em->flush();
 
