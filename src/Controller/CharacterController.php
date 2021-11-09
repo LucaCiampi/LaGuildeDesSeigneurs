@@ -113,4 +113,21 @@ class CharacterController extends AbstractController
 
         return new JsonResponse(array('delete' => $response));
     }
+
+    /**
+     * Returns images randomly
+     * @Route("/character/images/{number}", 
+     * name="character_images",
+     * requirements={"number": "^([0-9]{1,2})$"},
+     * methods={"GET","HEAD"}
+     * )
+     */
+    public function images(int $number): JsonResponse
+    {
+        $this->denyAccessUnlessGranted('characterIndex', null);
+
+        $images = $this->characterService->getImages($number);
+
+        return new JsonResponse($images);
+    }
 }

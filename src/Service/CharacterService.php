@@ -6,6 +6,7 @@ use DateTime;
 use App\Entity\Character;
 use App\Repository\CharacterRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Finder\Finder;
 
 class CharacterService implements CharacterServiceInterface
 {
@@ -90,5 +91,54 @@ class CharacterService implements CharacterServiceInterface
         $this->em->flush();
 
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getImages(int $number)
+    {
+        $folder = __DIR__ . '/../../public/images/';
+
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in($folder)
+            ->notPath('/cartes/')
+            ->sortByName()
+        ;
+
+        $images = array();
+        foreach ($finder as $file) {
+            $images[] = '/images/' . str_replace('\\', '', $file->getRelativePathname());
+        }
+        shuffle($images);
+
+        return array_slice($images, 0, $number, true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getImagesByKind(string $kind, int $number)
+    {
+        $folder = __DIR__ . '/../../public/images/';
+
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->name($kind . '-*.jpg')
+            ->in($folder)
+            ->notPath('/cartes/')
+            ->sortByName()
+        ;
+
+        $images = array();
+        foreach ($finder as $file) {
+            $images[] = '/images/' . str_replace('\\', '', $file->getRelativePathname());
+        }
+        shuffle($images);
+
+        return array_slice($images, 0, $number, true);
     }
 }
