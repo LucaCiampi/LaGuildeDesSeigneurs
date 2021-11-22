@@ -43,18 +43,14 @@ class PlayerVoter extends Voter
             case self::PLAYER_CREATE:
                 // Peut envoyer $token et $subject pour tester les conditions
                 return $this->canCreate(); //$this->canDisplay($token, $subject)
-                break;
             case self::PLAYER_DISPLAY:
             case self::PLAYER_INDEX:
                 // Peut envoyer $token et $subject pour tester les conditions
                 return $this->canDisplay(); //$this->canDisplay($token, $subject)
-                break;
             case self::PLAYER_MODIFY:
                 return $this->canModify();
-                break;
             case self::PLAYER_DELETE:
                 return $this->canDelete();
-                break;
         }
         throw new LogicException('Invalid attribute : ' . $attribute);
     }

@@ -22,6 +22,7 @@ class CharacterService implements CharacterServiceInterface
     private $characterRepository;
     private $em;
     private $formFactory;
+    private $validator;
 
     public function __construct(
         CharacterRepository $characterRepository,
@@ -75,7 +76,7 @@ class CharacterService implements CharacterServiceInterface
         $errors = $this->validator->validate($character);
 
         if (count($errors) > 0) {
-            throw new UnprocessableEntityHttpException((string) $errors . 'Missing data for Entity -> ' . json_encode($character->toArray()));
+            throw new UnprocessableEntityHttpException((string) $errors . 'Missing data for Entity -> ' . $this->serializeJson($character));
         }
         // if (null === $character->getKind() ||
         //     null === $character->getName() ||
@@ -83,7 +84,7 @@ class CharacterService implements CharacterServiceInterface
         //     null === $character->getIdentifier() ||
         //     null === $character->getCreation() ||
         //     null === $character->getModification()) {
-        //     throw new UnprocessableEntityHttpException('Missing data for Entity -> ' . json_encode($character->toArray()));
+        //     throw new UnprocessableEntityHttpException('Missing data for Entity -> ' . $this->serializeJson($character));
         // }
     }
 

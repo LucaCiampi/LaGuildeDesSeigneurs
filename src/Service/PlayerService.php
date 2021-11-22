@@ -22,6 +22,7 @@ class PlayerService implements PlayerServiceInterface
     private $playerRepository;
     private $em;
     private $formFactory;
+    private $validator;
 
     public function __construct(
         PlayerRepository $playerRepository,
@@ -76,7 +77,7 @@ class PlayerService implements PlayerServiceInterface
         $errors = $this->validator->validate($player);
 
         if (count($errors) > 0) {
-            throw new UnprocessableEntityHttpException((string) $errors . 'Missing data for Entity -> ' . json_encode($player->toArray()));
+            throw new UnprocessableEntityHttpException((string) $errors . 'Missing data for Entity -> ' . $this->serializeJson($player));
         }
 
         // if (null === $player->getFirstname() ||
@@ -85,7 +86,7 @@ class PlayerService implements PlayerServiceInterface
         //     null === $player->getMirian() ||
         //     null === $player->getCreation() ||
         //     null === $player->getModification()) {
-        //     throw new UnprocessableEntityHttpException('Missing data for Entity -> ' . json_encode($player->toArray()));
+        //     throw new UnprocessableEntityHttpException('Missing data for Entity -> ' . $this->serializeJson($player));
         // }
     }
 

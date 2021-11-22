@@ -43,18 +43,14 @@ class CharacterVoter extends Voter
             case self::CHARACTER_CREATE:
                 // Peut envoyer $token et $subject pour tester les conditions
                 return $this->canCreate(); //$this->canDisplay($token, $subject)
-                break;
             case self::CHARACTER_DISPLAY:
             case self::CHARACTER_INDEX:
                 // Peut envoyer $token et $subject pour tester les conditions
                 return $this->canDisplay(); //$this->canDisplay($token, $subject)
-                break;
             case self::CHARACTER_MODIFY:
                 return $this->canModify();
-                break;
             case self::CHARACTER_DELETE:
                 return $this->canDelete();
-                break;
         }
         throw new LogicException('Invalid attribute : ' . $attribute);
     }
