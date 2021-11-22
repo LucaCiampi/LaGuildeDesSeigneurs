@@ -22,7 +22,7 @@ class Player
     private $id = 0;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=64, name="gls_firstname")
      * @Assert\NotBlank
      * @Assert\Length(
      *  min = 3,
@@ -32,7 +32,7 @@ class Player
     private $firstname = 'Luca';
 
     /**
-     * @ORM\Column(type="string", length=64, nullable=true)
+     * @ORM\Column(type="string", length=64, nullable=true, name="gls_lastname")
      * @Assert\Length(
      *  min = 3,
      *  max = 64,
@@ -41,7 +41,7 @@ class Player
     private $lastname = 'Ciampi';
 
     /**
-     * @ORM\Column(type="string", length=128, nullable=true)
+     * @ORM\Column(type="string", length=128, nullable=true, name="gls_email")
      * @Assert\Length(
      *  min = 3,
      *  max = 128,
@@ -50,17 +50,17 @@ class Player
     private $email = 'luca.ciampi@hotmail.fr';
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true, name="gls_mirian")
      */
     private $mirian = 120;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", name="gls_creation")
      */
     private $creation;
 
     /**
-     * @ORM\Column(type="string", length=40)
+     * @ORM\Column(type="string", length=40, name="gls_identifier")
      * @Assert\Length(
      *  min = 40,
      *  max = 40,
@@ -69,12 +69,12 @@ class Player
     private $identifier;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true, name="gls_modification")
      */
     private $modification;
 
     /**
-     * @ORM\OneToMany(targetEntity=Character::class, mappedBy="player")
+     * @ORM\OneToMany(targetEntity=Character::class, mappedBy="player", name="gls_characters")
      */
     private $characters;
 
