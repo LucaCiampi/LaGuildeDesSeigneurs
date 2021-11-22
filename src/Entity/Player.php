@@ -19,7 +19,7 @@ class Player
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id = 0;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=64, name="gls_firstname")
@@ -29,7 +29,7 @@ class Player
      *  max = 64,
      * )
      */
-    private $firstname = 'Luca';
+    private $firstname;
 
     /**
      * @ORM\Column(type="string", length=64, nullable=true, name="gls_lastname")
@@ -38,7 +38,7 @@ class Player
      *  max = 64,
      * )
      */
-    private $lastname = 'Ciampi';
+    private $lastname;
 
     /**
      * @ORM\Column(type="string", length=128, nullable=true, name="gls_email")
@@ -47,12 +47,12 @@ class Player
      *  max = 128,
      * )
      */
-    private $email = 'luca.ciampi@hotmail.fr';
+    private $email;
 
     /**
      * @ORM\Column(type="integer", nullable=true, name="gls_mirian")
      */
-    private $mirian = 120;
+    private $mirian;
 
     /**
      * @ORM\Column(type="datetime", name="gls_creation")

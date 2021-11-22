@@ -17,7 +17,7 @@ class Character
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id = 1;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=16, name="gls_kind")
@@ -27,7 +27,7 @@ class Character
      *  max = 16,
      * )
      */
-    private $kind = 'Dame';
+    private $kind;
 
     /**
      * @ORM\Column(type="string", length=16, name="gls_name")
@@ -37,7 +37,7 @@ class Character
      *  max = 16,
      * )
      */
-    private $name = 'Anardil';
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=64, name="gls_surname")
@@ -47,7 +47,7 @@ class Character
      *  max = 64,
      * )
      */
-    private $surname = 'Amie du soleil';
+    private $surname;
 
     /**
      * @ORM\Column(type="string", length=16, nullable=true, name="gls_caste")
@@ -56,7 +56,7 @@ class Character
      *  max = 16,
      * )
      */
-    private $caste = 'Magicien';
+    private $caste;
 
     /**
      * @ORM\Column(type="string", length=16, nullable=true, name="gls_knowledge")
@@ -65,17 +65,17 @@ class Character
      *  max = 16,
      * )
      */
-    private $knowledge = 'Sciences';
+    private $knowledge;
 
     /**
      * @ORM\Column(type="integer", nullable=true, name="gls_intelligence")
      */
-    private $intelligence = '130';
+    private $intelligence;
 
     /**
      * @ORM\Column(type="integer", nullable=true, name="gls_life")
      */
-    private $life = '11';
+    private $life;
 
     /**
      * @ORM\Column(type="string", length=128, nullable=true, name="gls_image")
