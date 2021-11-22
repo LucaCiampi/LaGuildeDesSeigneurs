@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Service;
 
 use App\Entity\Character;
@@ -9,17 +10,17 @@ interface CharacterServiceInterface
      * Creates the character
      */
     public function create(string $data);
-    
+
     /**
      * Gets all the characters
      */
     public function getAll();
-    
+
     /**
      * Modifies the character
      */
     public function modify(Character $character, string $data);
-    
+
     /**
      * Deletes the character
      */
@@ -44,5 +45,4 @@ interface CharacterServiceInterface
      * Serializes the object(s)
      */
     public function serializeJson($data);
-
 }

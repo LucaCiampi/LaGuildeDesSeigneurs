@@ -27,8 +27,7 @@ class PlayerService implements PlayerServiceInterface
         PlayerRepository $playerRepository,
         EntityManagerInterface $em,
         FormFactoryInterface $formFactory
-        )
-    {
+    ) {
         $this->playerRepository = $playerRepository;
         $this->em = $em;
         $this->formFactory = $formFactory;
@@ -54,10 +53,11 @@ class PlayerService implements PlayerServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function modify(Player $player, string $data): Player {
+    public function modify(Player $player, string $data): Player
+    {
         $this->submit($player, PlayerType::class, $data);
         $this->isEntityFilled($player);
-        
+
         $player
             ->setModification(new DateTime())
         ;
@@ -100,7 +100,8 @@ class PlayerService implements PlayerServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function delete(Player $player): bool {
+    public function delete(Player $player): bool
+    {
         $this->em->remove($player);
         $this->em->flush();
 

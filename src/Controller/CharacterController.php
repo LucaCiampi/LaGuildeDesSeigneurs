@@ -31,7 +31,7 @@ class CharacterController extends AbstractController
 
     /**
      * // Fonctionne également dans le format dessus ^
-     * @Route("/character/display/{identifier}", 
+     * @Route("/character/display/{identifier}",
      * name="character_display",
      * requirements={"identifier": "^([a-z0-9]{40})$"},
      * methods={"GET","HEAD"}
@@ -60,7 +60,7 @@ class CharacterController extends AbstractController
     }
 
     /**
-     * @Route("/character/modify/{identifier}", 
+     * @Route("/character/modify/{identifier}",
      * name="character_modify",
      * requirements={"identifier": "^([a-z0-9]{40})$"},
      * methods={"PUT","HEAD"}
@@ -76,7 +76,7 @@ class CharacterController extends AbstractController
     }
 
     /**
-     * @Route("/character", 
+     * @Route("/character",
      * name="character_redirect_index",
      * methods={"GET","HEAD"}
      * )
@@ -87,7 +87,7 @@ class CharacterController extends AbstractController
     }
 
     /**
-     * @Route("/character/index", 
+     * @Route("/character/index",
      * name="character_index",
      * methods={"GET","HEAD"}
      * )
@@ -102,7 +102,7 @@ class CharacterController extends AbstractController
     }
 
     /**
-     * @Route("/character/delete/{identifier}", 
+     * @Route("/character/delete/{identifier}",
      * name="character_delete",
      * requirements={"identifier": "^([a-z0-9]{40})$"},
      * methods={"DELETE","HEAD"}
@@ -119,7 +119,7 @@ class CharacterController extends AbstractController
 
     /**
      * Returns images randomly
-     * @Route("/character/images/{number}", 
+     * @Route("/character/images/{number}",
      * name="character_images",
      * requirements={"number": "^([0-9]{1,2})$"},
      * methods={"GET","HEAD"}
@@ -136,7 +136,7 @@ class CharacterController extends AbstractController
 
     /**
      * Returns images randomly
-     * @Route("/character/images/{kind}/{number}", 
+     * @Route("/character/images/{kind}/{number}",
      * name="character_images_kind",
      * requirements={"number": "^([0-9]{1,2})$"},
      * methods={"GET","HEAD"}

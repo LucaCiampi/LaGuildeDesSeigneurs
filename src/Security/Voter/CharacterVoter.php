@@ -34,7 +34,7 @@ class CharacterVoter extends Voter
     }
 
     /**
-     * 
+     *
      */
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {

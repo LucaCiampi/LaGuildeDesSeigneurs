@@ -18,7 +18,6 @@ class PlayerController extends AbstractController
     public function __construct(PlayerServiceInterface $playerService)
     {
         $this->playerService = $playerService;
-
     }
 
     // #[Route('/player', name: 'player', methods: ['GET', 'HEAD'])]
@@ -32,7 +31,7 @@ class PlayerController extends AbstractController
 
     /**
      * // Fonctionne également dans le format dessus ^
-     * @Route("/player/display/{identifier}", 
+     * @Route("/player/display/{identifier}",
      * name="player_display",
      * requirements={"identifier": "^([a-z0-9]{40})$"},
      * methods={"GET","HEAD"}
@@ -61,7 +60,7 @@ class PlayerController extends AbstractController
     }
 
     /**
-     * @Route("/player/modify/{identifier}", 
+     * @Route("/player/modify/{identifier}",
      * name="player_modify",
      * requirements={"identifier": "^([a-z0-9]{40})$"},
      * methods={"PUT","HEAD"}
@@ -77,7 +76,7 @@ class PlayerController extends AbstractController
     }
 
     /**
-     * @Route("/player", 
+     * @Route("/player",
      * name="player_redirect_index",
      * methods={"GET","HEAD"}
      * )
@@ -88,7 +87,7 @@ class PlayerController extends AbstractController
     }
 
     /**
-     * @Route("/player/index", 
+     * @Route("/player/index",
      * name="player_index",
      * methods={"GET","HEAD"}
      * )
@@ -103,7 +102,7 @@ class PlayerController extends AbstractController
     }
 
     /**
-     * @Route("/player/delete/{identifier}", 
+     * @Route("/player/delete/{identifier}",
      * name="player_delete",
      * requirements={"identifier": "^([a-z0-9]{40})$"},
      * methods={"DELETE","HEAD"}
