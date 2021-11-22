@@ -19,9 +19,9 @@ class PlayerRepository extends ServiceEntityRepository
         parent::__construct($registry, Player::class);
     }
 
-    // /**
-    //  * @return Player[] Returns an array of Player objects
-    //  */
+    /**
+     * @return Player[] Returns an array of Player objects
+     */
     /*
     public function findByExampleField($value)
     {
@@ -36,15 +36,16 @@ class PlayerRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Player
+
+    public function findOneByIdentifier($identifier): ?Player
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
+            ->select('p', 'c')
+            ->leftJoin('p.characters', 'c')
+            ->where('p.identifier = :identifier')
+            ->setParameter('identifier', $identifier)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
 }

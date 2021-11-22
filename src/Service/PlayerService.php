@@ -10,6 +10,11 @@ use Symfony\Component\Finder\Finder;
 use LogicException;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use App\Form\PlayerType;
 
 class PlayerService implements PlayerServiceInterface
@@ -71,7 +76,7 @@ class PlayerService implements PlayerServiceInterface
         $errors = $this->validator->validate($player);
 
         if (count($errors) > 0) {
-            throw new UnprocessableEntityHttpException((string) $errors . 'Missing data for Entity -> ' . json_encode($character->toArray()));
+            throw new UnprocessableEntityHttpException((string) $errors . 'Missing data for Entity -> ' . json_encode($player->toArray()));
         }
 
         // if (null === $player->getFirstname() ||
@@ -89,14 +94,7 @@ class PlayerService implements PlayerServiceInterface
      */
     public function getAll(): array
     {
-        $playersFinal = array();
-        $players = $this->playerRepository->findAll();
-
-        foreach ($players as $player) {
-            $playersFinal[] = $player->toArray();
-        }
-
-        return $playersFinal;
+        return $this->playerRepository->findAll();
     }
 
     /**
@@ -130,5 +128,24 @@ class PlayerService implements PlayerServiceInterface
         foreach ($errors as $error) {
             throw new LogicException('Error ' . get_class($error->getCause()) . ' --> ' . $error->getMessageTemplate() . ' ' . json_encode($error->getMessageParameters()));
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serializeJson($data)
+    {
+        $encoders = new JsonEncoder();
+
+        $defaultContext = [
+            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($data) {
+                return $data->getIdentifier();
+            }
+        ];
+
+        $normalizers = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
+        $serializer = new Serializer([new DateTimeNormalizer(), $normalizers], [$encoders]);
+
+        return $serializer->serialize($data, 'json');
     }
 }

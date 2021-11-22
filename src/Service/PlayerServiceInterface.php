@@ -34,4 +34,9 @@ interface PlayerServiceInterface
      * Submits the data to hydrate the object
      */
     public function submit(Player $player, $formname, $data);
+
+    /**
+     * Serializes the object(s)
+     */
+    public function serializeJson($data);
 }
