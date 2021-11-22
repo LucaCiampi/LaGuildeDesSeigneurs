@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Character;
 use App\Service\CharacterServiceInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 class CharacterController extends AbstractController
 {
@@ -35,12 +36,13 @@ class CharacterController extends AbstractController
      * requirements={"identifier": "^([a-z0-9]{40})$"},
      * methods={"GET","HEAD"}
      * )
+     * @Entity("character", expr="repository.findOneByIdentifier(identifier)")
      */
     public function display(Character $character): Response
     {
         $this->denyAccessUnlessGranted('characterDisplay', $character);
 
-        return new JsonResponse($character->toArray());
+        return JsonResponse::fromJsonString($this->characterService->serializeJson($character));
     }
 
     /**
@@ -54,7 +56,7 @@ class CharacterController extends AbstractController
 
         $character = $this->characterService->create($request->getContent());
 
-        return new JsonResponse($character->toArray());
+        return JsonResponse::fromJsonString($this->characterService->serializeJson($character));
     }
 
     /**
@@ -70,7 +72,7 @@ class CharacterController extends AbstractController
 
         $character = $this->characterService->modify($character, $request->getContent());
 
-        return new JsonResponse($character->toArray());
+        return JsonResponse::fromJsonString($this->characterService->serializeJson($character));
     }
 
     /**
@@ -96,7 +98,7 @@ class CharacterController extends AbstractController
 
         $characters = $this->characterService->getAll();
 
-        return new JsonResponse($characters);
+        return JsonResponse::fromJsonString($this->characterService->serializeJson($characters));
     }
 
     /**

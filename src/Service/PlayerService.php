@@ -3,11 +3,12 @@
 namespace App\Service;
 
 use DateTime;
+use LogicException;
 use App\Entity\Player;
+use App\Form\PlayerType;
 use App\Repository\PlayerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Finder\Finder;
-use LogicException;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -15,7 +16,6 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use App\Form\PlayerType;
 
 class PlayerService implements PlayerServiceInterface
 {

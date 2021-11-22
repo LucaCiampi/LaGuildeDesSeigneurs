@@ -40,4 +40,9 @@ interface CharacterServiceInterface
      */
     public function submit(Character $character, $formname, $data);
 
+    /**
+     * Serializes the object(s)
+     */
+    public function serializeJson($data);
+
 }

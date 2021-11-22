@@ -36,15 +36,15 @@ class CharacterRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Character
+    public function findOneByIdentifier($identifier): ?Character
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->select('c', 'p')
+            ->leftJoin('c.player', 'p')
+            ->where('c.identifier = :identifier')
+            ->setParameter('identifier', $identifier)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
 }
