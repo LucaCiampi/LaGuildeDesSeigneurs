@@ -74,7 +74,7 @@ class Player
     private $modification;
 
     /**
-     * @ORM\OneToMany(targetEntity=Character::class, mappedBy="player", name="gls_characters")
+     * @ORM\OneToMany(targetEntity=Character::class, mappedBy="player")
      */
     private $characters;
 

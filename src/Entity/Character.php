@@ -106,7 +106,7 @@ class Character
     private $modification;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Player::class, inversedBy="characters", name="gls_player")
+     * @ORM\ManyToOne(targetEntity=Player::class, inversedBy="characters")
      */
     private $player;
 
