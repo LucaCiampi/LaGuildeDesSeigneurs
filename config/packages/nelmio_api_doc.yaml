@@ -1,7 +1,7 @@
 nelmio_api_doc:
     documentation:
         servers:
-            -url: localhost
+          - url: localhost
             description: API over HTTP
         info:
             title: La Guilde des Seigneurs
