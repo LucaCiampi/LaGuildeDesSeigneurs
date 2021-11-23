@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Character;
 use App\Service\CharacterServiceInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Annotations as OA;
 
 class CharacterController extends AbstractController
 {
@@ -20,23 +22,33 @@ class CharacterController extends AbstractController
         $this->characterService = $characterService;
     }
 
-    // #[Route('/character', name: 'character', methods: ['GET', 'HEAD'])]
-    // public function index(): Response
-    // {
-    //     return $this->json([
-    //         'message' => 'Welcome to your new controller!',
-    //         'path' => 'src/Controller/CharacterController.php',
-    //     ]);
-    // }
-
     /**
-     * // Fonctionne également dans le format dessus ^
      * @Route("/character/display/{identifier}",
      * name="character_display",
      * requirements={"identifier": "^([a-z0-9]{40})$"},
      * methods={"GET","HEAD"}
      * )
      * @Entity("character", expr="repository.findOneByIdentifier(identifier)")
+     * @OA\Parameter(
+     *      name="identifier",
+     *      in="path",
+     *      description="identifier for the Character",
+     *      required=true
+     * )
+     * @OA\Response(
+     *      response=200,
+     *      description="Success",
+     *      @Model(type=Character::class)
+     * )
+     * @OA\Response(
+     *      response=403,
+     *      description="Access denied"
+     * )
+     * @OA\Response(
+     *      response=404,
+     *      description="Not found"
+     * )
+     * OA\Tag(name="Character")
      */
     public function display(Character $character): Response
     {
@@ -48,6 +60,25 @@ class CharacterController extends AbstractController
     /**
      * Creates new Character
      * @return JsonResponse
+     * @OA\Response(
+     *      response=200,
+     *      description="Success",
+     *      @Model(type=Character::class)
+     * )
+     * @OA\Response(
+     *      response=403,
+     *      description="Access denied"
+     * )
+     * @OA\RequestBody(
+     *      request="Character",
+     *      description="Data for the Character",
+     *      required=true,
+     *      @OA\MediaType(
+     *          mediaType="application/json",
+     *          @OA\Schema(ref="#/components/schemas/Character")
+     *      )
+     * )
+     * OA\Tag(name="Character")
      */
     #[Route('/character/create', name: 'character_create', methods: ['POST', 'HEAD'])]
     public function create(Request $request): JsonResponse
@@ -65,6 +96,25 @@ class CharacterController extends AbstractController
      * requirements={"identifier": "^([a-z0-9]{40})$"},
      * methods={"PUT","HEAD"}
      * )
+     * @OA\Response(
+     *      response=200,
+     *      description="Success",
+     *      @Model(type=Character::class)
+     * )
+     * @OA\Response(
+     *      response=403,
+     *      description="Access denied"
+     * )
+     * @OA\RequestBody(
+     *      request="Character",
+     *      description="Data for the Character",
+     *      required=true,
+     *      @OA\MediaType(
+     *          mediaType="application/json",
+     *          @OA\Schema(ref="#/components/schemas/Character")
+     *      )
+     * )
+     * OA\Tag(name="Character")
      */
     public function modify(Request $request, Character $character): JsonResponse
     {
@@ -80,6 +130,11 @@ class CharacterController extends AbstractController
      * name="character_redirect_index",
      * methods={"GET","HEAD"}
      * )
+     * @OA\Response(
+     *      response=200,
+     *      description="Success"
+     * )
+     * OA\Tag(name="Character")
      */
     public function redirectIndex()
     {
@@ -91,6 +146,15 @@ class CharacterController extends AbstractController
      * name="character_index",
      * methods={"GET","HEAD"}
      * )
+     * @OA\Response(
+     *      response=200,
+     *      description="Success"
+     * )
+     * @OA\Response(
+     *      response=403,
+     *      description="Access denied"
+     * )
+     * OA\Tag(name="Character")
      */
     public function index(): JsonResponse
     {
@@ -107,6 +171,33 @@ class CharacterController extends AbstractController
      * requirements={"identifier": "^([a-z0-9]{40})$"},
      * methods={"DELETE","HEAD"}
      * )
+     * @OA\Parameter(
+     *      name="identifier",
+     *      in="path",
+     *      description="identifier for the Character",
+     *      required=true
+     * )
+     * @OA\Response(
+     *      response=200,
+     *      description="Success",
+     *      @OA\Schema(
+     *          @OA\Property(property="delete", type="boolean")
+     *      )
+     * )
+     * @OA\Response(
+     *      response=403,
+     *      description="Access denied"
+     * )
+     * @OA\RequestBody(
+     *      request="Character",
+     *      description="Data for the Character",
+     *      required=true,
+     *      @OA\MediaType(
+     *          mediaType="application/json",
+     *          @OA\Schema(ref="#/components/schemas/Character")
+     *      )
+     * )
+     * OA\Tag(name="Character")
      */
     public function delete(Character $character): JsonResponse
     {
@@ -124,6 +215,16 @@ class CharacterController extends AbstractController
      * requirements={"number": "^([0-9]{1,2})$"},
      * methods={"GET","HEAD"}
      * )
+     * @OA\Response(
+     *      response=200,
+     *      description="Success",
+     *      @Model(type=Character::class)
+     * )
+     * @OA\Response(
+     *      response=403,
+     *      description="Access denied"
+     * )
+     * OA\Tag(name="Character")
      */
     public function images(int $number): JsonResponse
     {
@@ -141,6 +242,16 @@ class CharacterController extends AbstractController
      * requirements={"number": "^([0-9]{1,2})$"},
      * methods={"GET","HEAD"}
      * )
+     * @OA\Response(
+     *      response=200,
+     *      description="Success",
+     *      @Model(type=Character::class)
+     * )
+     * @OA\Response(
+     *      response=403,
+     *      description="Access denied"
+     * )
+     * OA\Tag(name="Character")
      */
     public function getImagesByKind(string $kind, int $number): JsonResponse
     {
