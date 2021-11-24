@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\CharacterRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CharacterRepository::class)
+ * @ORM\Table(name="characters")
  */
 class Character
 {
@@ -15,52 +17,106 @@ class Character
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id = 1;
+    private $id;
 
     /**
-     * @ORM\Column(type="string", length=16)
+     * @ORM\Column(type="string", length=16, name="gls_kind")
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *  min = 3,
+     *  max = 16,
+     * )
      */
-    private $kind = 'Dame';
+    private $kind;
 
     /**
-     * @ORM\Column(type="string", length=16)
+     * @ORM\Column(type="string", length=16, name="gls_name")
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *  min = 3,
+     *  max = 16,
+     * )
      */
-    private $name = 'Anardil';
+    private $name;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=64, name="gls_surname")
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *  min = 3,
+     *  max = 64,
+     * )
      */
-    private $surname = 'Amie du soleil';
+    private $surname;
 
     /**
-     * @ORM\Column(type="string", length=16, nullable=true)
+     * @ORM\Column(type="string", length=16, nullable=true, name="gls_caste")
+     * @Assert\Length(
+     *  min = 3,
+     *  max = 16,
+     * )
      */
-    private $caste = 'Magicien';
+    private $caste;
 
     /**
-     * @ORM\Column(type="string", length=16, nullable=true)
+     * @ORM\Column(type="string", length=16, nullable=true, name="gls_knowledge")
+     * @Assert\Length(
+     *  min = 3,
+     *  max = 16,
+     * )
      */
-    private $knowledge = 'Sciences';
+    private $knowledge;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true, name="gls_intelligence")
      */
-    private $intelligence = '130';
+    private $intelligence;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true, name="gls_life")
      */
-    private $life = '11';
+    private $life;
 
     /**
-     * @ORM\Column(type="string", length=128, nullable=true)
+     * @ORM\Column(type="string", length=128, nullable=true, name="gls_image")
+     * @Assert\Length(
+     *  min = 5,
+     *  max = 128,
+     * )
      */
     private $image;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", name="gls_creation")
      */
     private $creation;
+
+    /**
+     * @ORM\Column(type="string", length=40, name="gls_identifier")
+     * @Assert\Length(
+     *  min = 40,
+     *  max = 40,
+     * )
+     */
+    private $identifier;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true, name="gls_modification")
+     */
+    private $modification;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Player::class, inversedBy="characters")
+     */
+    private $player;
+
+    /**
+     * Converts the entity in an array
+     */
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
 
     public function getId(): ?int
     {
@@ -151,14 +207,6 @@ class Character
         return $this;
     }
 
-    /**
-     * Converts the entity in an array
-     */
-    public function toArray(): array
-    {
-        return get_object_vars($this);
-    }
-
     public function getKind(): ?string
     {
         return $this->kind;
@@ -179,6 +227,42 @@ class Character
     public function setCreation(\DateTimeInterface $creation): self
     {
         $this->creation = $creation;
+
+        return $this;
+    }
+
+    public function getIdentifier(): ?string
+    {
+        return $this->identifier;
+    }
+
+    public function setIdentifier(string $identifier): self
+    {
+        $this->identifier = $identifier;
+
+        return $this;
+    }
+
+    public function getModification(): ?\DateTimeInterface
+    {
+        return $this->modification;
+    }
+
+    public function setModification(?\DateTimeInterface $modification): self
+    {
+        $this->modification = $modification;
+
+        return $this;
+    }
+
+    public function getPlayer(): ?Player
+    {
+        return $this->player;
+    }
+
+    public function setPlayer(?Player $player): self
+    {
+        $this->player = $player;
 
         return $this;
     }

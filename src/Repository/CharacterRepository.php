@@ -36,15 +36,28 @@ class CharacterRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Character
+    public function findOneByIdentifier($identifier): ?Character
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->select('c', 'p')
+            ->leftJoin('c.player', 'p')
+            ->where('c.identifier = :identifier')
+            ->setParameter('identifier', $identifier)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+
+    public function findByIntelligenceGreaterThanEqual($intelligence): ?array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c')
+            ->where('c.intelligence >= :intelligence')
+            ->setParameter('intelligence', $intelligence)
+            ->orderBy('c.intelligence', 'ASC')
+            ->setMaxResults(50)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
