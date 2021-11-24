@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Character;
 use App\Form\CharacterApiHtmlType;
 use App\Repository\CharacterRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,27 +9,32 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use App\Service\CharacterServiceInterface;
 
 /**
  * @Route("/character/api-html")
  */
 class CharacterApiHtmlController extends AbstractController
 {
-    private $characterService;
+    private $client;
 
-    public function __construct(CharacterServiceInterface $characterService)
-    {
-        $this->characterService = $characterService;
+    public function __construct(
+        HttpClientInterface $client
+    ) {
+        $this->client = $client;
     }
 
     /**
      * @Route("/", name="character_api_html_index", methods={"GET"})
      */
-    public function index(CharacterRepository $characterRepository): Response
+    public function index(): Response
     {
+        $response = $this->client->request(
+            'GET',
+            'http://localhost:8000/character/index'
+        );
+
         return $this->render('character_api_html/index.html.twig', [
-            'characters' => $characterRepository->findAll(),
+            'characters' => $response->toArray(),
         ]);
     }
 
@@ -39,17 +43,21 @@ class CharacterApiHtmlController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('characterCreate', null);
-
-        $character = new Character();
+        $character = array();
         $form = $this->createForm(CharacterApiHtmlType::class, $character);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->characterService->createFromHtml($character);
+            $response = $this->client->request(
+                'POST',
+                'http://localhost:8000/character/create',
+                [
+                    'json' => $request->request->all()['character_api_html']
+                ]
+            );
 
             return $this->redirectToRoute('character_api_html_show', array(
-                'identifier' => $character->getIdentifier(),
+                'identifier' => $response->toArray()['identifier'],
             ));
         }
 
@@ -62,28 +70,43 @@ class CharacterApiHtmlController extends AbstractController
     /**
      * @Route("/{identifier}", name="character_api_html_show", methods={"GET"})
      */
-    public function show(Character $character): Response
+    public function show(string $identifier): Response
     {
-        return $this->render('character_html/show.html.twig', [
-            'character' => $character,
+        $response = $this->client->request(
+            'GET',
+            'http://localhost:8000/character/display/' . $identifier
+        );
+
+        return $this->render('character_api_html/show.html.twig', [
+            'character' => $response->toArray()
         ]);
     }
 
     /**
      * @Route("/{identifier}/edit", name="character_api_html_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Character $character): Response
+    public function edit(Request $request, string $identifier): Response
     {
-        $this->denyAccessUnlessGranted('characterModify', $character);
+        $response = $this->client->request(
+            'GET',
+            'http://localhost:8000/character/display/' . $identifier
+        );
+        $character = $response->toArray();
 
-        $form = $this->createForm(CharacterHtmlType::class, $character);
+        $form = $this->createForm(CharacterApiHtmlType::class, $character);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->characterService->modifyFromHtml($character);
+            $response = $this->client->request(
+                'PUT',
+                'http://localhost:8000/character/modify/' . $identifier,
+                [
+                    'json' => $request->request->all()['character_api_html'],
+                ]
+            );
 
             return $this->redirectToRoute('character_api_html_show', array(
-                'identifier' => $character->getIdentifier(),
+                'identifier' => $identifier
             ));
         }
 
@@ -96,12 +119,13 @@ class CharacterApiHtmlController extends AbstractController
     /**
      * @Route("/{identifier}", name="character_api_html_delete", methods={"POST"})
      */
-    public function delete(Request $request, Character $character): Response
+    public function delete(Request $request, string $identifier): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$character->getIdentifier(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($character);
-            $entityManager->flush();
+        if ($this->isCsrfTokenValid('delete' . $identifier, $request->request->get('_token'))) {
+            $this->client->request(
+                'DELETE',
+                'http://localhost:8000/character/delete/' . $identifier
+            );
         }
 
         return $this->redirectToRoute('character_api_html_index', [], Response::HTTP_SEE_OTHER);
