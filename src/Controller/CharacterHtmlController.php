@@ -95,7 +95,7 @@ class CharacterHtmlController extends AbstractController
     /**
      * Returns characters with intelligence greater than or equal to number passed in parameter
      * @Route("/intelligence/{amount}",
-     * name="character_filter_intelligence",
+     * name="character_html_filter_intelligence",
      * requirements={"amount": "^([0-9]{1,3})$"},
      * methods={"GET","HEAD"}
      * )

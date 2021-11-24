@@ -132,20 +132,17 @@ class CharacterApiHtmlController extends AbstractController
     }
 
     /**
-     * Displays Characters by their intelligence level
-     *
-     * @Route("/intelligence/{level}",
-     *     name="character_api_html_intelligence_level",
-     *     requirements={"level": "^([0-9]{1,3})$"},
-     *     methods={"GET", "HEAD"}
-     * )
+     * @Route("/intelligence/{amount}", name="character_api_html_intelligence", methods={"GET"})
      */
-    public function intelligenceLevel(int $level)
+    public function indexByIntelligenceGte(int $amount): Response
     {
-        $this->denyAccessUnlessGranted('characterIndex', null);
+        $response = $this->client->request(
+            'GET',
+            'http://localhost:8000/character/intelligence/' . $amount
+        );
 
         return $this->render('character_api_html/index.html.twig', [
-            'characters' => $this->characterService->getAllByIntelligenceLevel($level),
+            'characters' => $response->toArray(),
         ]);
     }
 }
