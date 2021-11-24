@@ -48,11 +48,11 @@ class CharacterRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findByIntelligence($intelligence): ?array
+    public function findByIntelligenceGreaterThanEqual($intelligence): ?array
     {
         return $this->createQueryBuilder('c')
             ->select('c')
-            ->where('c.intelligence > :intelligence')
+            ->where('c.intelligence >= :intelligence')
             ->setParameter('intelligence', $intelligence)
             ->orderBy('c.intelligence', 'ASC')
             ->setMaxResults(50)

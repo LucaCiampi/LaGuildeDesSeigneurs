@@ -263,10 +263,10 @@ class CharacterController extends AbstractController
     }
 
     /**
-     * Returns characters with intelligence above one passed in parameter
-     * @Route("/character/intelligence/{intelligence}",
+     * Returns characters with intelligence greater than or equal to number passed in parameter
+     * @Route("/character/intelligence/{amount}",
      * name="character_filter_intelligence",
-     * requirements={"intelligence": "^([0-9]{1,3})$"},
+     * requirements={"amount": "^([0-9]{1,3})$"},
      * methods={"GET","HEAD"}
      * )
      * @OA\Response(
@@ -280,11 +280,11 @@ class CharacterController extends AbstractController
      * )
      * OA\Tag(name="Character")
      */
-    public function getCharactersByIntelligence(int $intelligence): JsonResponse
+    public function getCharactersByIntelligence(int $amount): JsonResponse
     {
         $this->denyAccessUnlessGranted('characterIndex', null);
 
-        $images =  $this->characterService->getFromIntelligence($intelligence);
+        $images =  $this->characterService->getFromIntelligenceGte($amount);
 
         return new JsonResponse($images);
     }

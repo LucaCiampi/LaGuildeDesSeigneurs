@@ -220,10 +220,10 @@ class CharacterService implements CharacterServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getFromIntelligence(int $intelligence)
+    public function getFromIntelligenceGte(int $intelligence)
     {
         $charactersFinal = array();
-        $characters = $this->characterRepository->findByIntelligence($intelligence);
+        $characters = $this->characterRepository->findByIntelligenceGreaterThanEqual($intelligence);
 
         foreach ($characters as $character) {
             $charactersFinal[] = $character->toArray();

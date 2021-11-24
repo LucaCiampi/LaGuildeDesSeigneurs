@@ -7,6 +7,7 @@ use App\Form\CharacterHtmlType;
 use App\Repository\CharacterRepository;
 use App\Service\CharacterServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -88,5 +89,21 @@ class CharacterHtmlController extends AbstractController
         }
 
         return $this->redirectToRoute('character_html_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    // #[Route('/intelligence/{amount}', name: 'character_html_filter_intelligence', methods: ['GET'])]
+    /**
+     * Returns characters with intelligence greater than or equal to number passed in parameter
+     * @Route("/intelligence/{amount}",
+     * name="character_filter_intelligence",
+     * requirements={"amount": "^([0-9]{1,3})$"},
+     * methods={"GET","HEAD"}
+     * )
+     */
+    public function indexByIntelligenceGte(CharacterRepository $characterRepository, int $amount): Response
+    {
+        return $this->render('character_html/index.html.twig', [
+            'characters' => $characterRepository->findByIntelligenceGreaterThanEqual($amount),
+        ]);
     }
 }

@@ -59,5 +59,5 @@ interface CharacterServiceInterface
     /**
      * Displays the characters with intelligence greater than passed in url
      */
-    public function getFromIntelligence(int $intelligence);
+    public function getFromIntelligenceGte(int $intelligence);
 }
