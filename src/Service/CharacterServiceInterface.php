@@ -45,4 +45,13 @@ interface CharacterServiceInterface
      * Serializes the object(s)
      */
     public function serializeJson($data);
+
+    /**
+     * Creates the Character from HTML form
+     */
+    public function createFromHtml(Character $character);
+
+    /**
+     * Modifies the Character from HTML form
+     */
 }

@@ -41,17 +41,29 @@ class CharacterService implements CharacterServiceInterface
         $this->validator = $validator;
         $this->dispatcher = $dispatcher;
     }
-
+    
+    /**
+     * {@inheritdoc}
+     */
     public function create(string $data)
     {
         //Use with {"kind":"Dame","name":"Eldalótë","surname":"Fleur elfique","caste":"Elfe","knowledge":"Arts","intelligence":120,"life":12,"image":"/images/eldalote.jpg"}
         $character = new Character();
+        
+        $this->submit($character, CharacterType::class, $data);
+
+        return $this->createFromHtml($character);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createFromHtml(Character $character)
+    {
         $character
             ->setIdentifier(hash('sha1', uniqid()))
             ->setCreation(new DateTime())
             ->setModification(new DateTime());
-        $this->submit($character, CharacterType::class, $data);
-        $this->isEntityFilled($character);
 
         // Dispatches event
         $event = new CharacterEvent($character);
@@ -69,6 +81,16 @@ class CharacterService implements CharacterServiceInterface
     public function modify(Character $character, string $data): Character
     {
         $this->submit($character, CharacterType::class, $data);
+
+
+        return $this->modifyFromHtml($character, $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function modifyFromHtml(Character $character, string $data): Character
+    {
         $this->isEntityFilled($character);
 
         $character

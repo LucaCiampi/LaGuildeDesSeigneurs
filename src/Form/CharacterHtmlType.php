@@ -57,9 +57,7 @@ class CharacterHtmlType extends AbstractType
                     'required' => false
                 )
             )
-            ->add('creation')
-            ->add('identifier')
-            ->add('modification');
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
