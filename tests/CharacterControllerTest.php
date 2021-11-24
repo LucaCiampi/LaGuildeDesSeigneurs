@@ -173,4 +173,18 @@ class CharacterControllerTest extends WebTestCase
         $this->client->request('GET', '/character/images/ennemis/2');
         $this->assertJsonResponse();
     }
+
+    /**
+     * Tests filter by intelligence
+     */
+    public function testFilterIntelligenceGte()
+    {
+        //tests with 120
+        $this->client->request('GET', '/character/intelligence/120');
+        $this->assertJsonResponse();
+
+        //tests with 250
+        $this->client->request('GET', '/character/intelligence/250');
+        $this->assertJsonResponse();
+    }
 }
