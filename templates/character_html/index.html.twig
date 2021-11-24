@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index des personnages{% endblock %}
+
+{% block body %}
+    <h1 class="mb-3">Index des personnages</h1>
+
+    <table class="table table-striped table-hover">
+        <thead class="bg-info">
+            <tr>
+                <th scope="col">Kind</th>
+                <th scope="col">Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">Caste</th>
+                <th scope="col">Knowledge</th>
+                <th scope="col">Intelligence</th>
+                <th scope="col">Life</th>
+                <th scope="col">Creation</th>
+                <th scope="col">Modification</th>
+                <th scope="col">actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for character in characters %}
+            <tr>
+                {% if 'Dame' == character.kind %}
+                    <td><b>{{ character.kind }}</b></td>
+                {% else %}
+                    <td>{{ character.kind }}</td>
+                {% endif %}
+                <td><a href="{{ path('character_html_show', {'id': character.id}) }}">{{ character.name }}</a></td>
+                <td>{{ character.surname }}</td>
+                <td>{{ character.caste }}</td>
+                <td>{{ character.knowledge }}</td>
+                <td>{{ character.intelligence }}</td>
+                <td>{{ character.life }}</td>
+                <td>{{ character.creation ? character.creation|date('d-m-Y') : '' }}</td>
+                <td>{{ character.modification ? character.modification|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('character_html_edit', {'id': character.id}) }}">modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        <a href="{{ path('character_html_new') }}"><button class="btn btn-success mb-4 mx-auto">Nouveau personnage</button></a>
+    </div>
+{% endblock %}
