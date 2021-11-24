@@ -216,4 +216,19 @@ class CharacterService implements CharacterServiceInterface
 
         return $serializer->serialize($data, 'json');
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFromIntelligence(int $intelligence)
+    {
+        $charactersFinal = array();
+        $characters = $this->characterRepository->findByIntelligence($intelligence);
+
+        foreach ($characters as $character) {
+            $charactersFinal[] = $character->toArray();
+        }
+
+        return $charactersFinal;
+    }
 }

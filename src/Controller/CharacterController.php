@@ -23,6 +23,46 @@ class CharacterController extends AbstractController
     }
 
     /**
+     * @Route("/character",
+     * name="character_redirect_index",
+     * methods={"GET","HEAD"}
+     * )
+     * @OA\Response(
+     *      response=200,
+     *      description="Success"
+     * )
+     * OA\Tag(name="Character")
+     */
+    public function redirectIndex()
+    {
+        return $this->redirectToRoute('character_index');
+    }
+
+    /**
+     * @Route("/character/index",
+     * name="character_index",
+     * methods={"GET","HEAD"}
+     * )
+     * @OA\Response(
+     *      response=200,
+     *      description="Success"
+     * )
+     * @OA\Response(
+     *      response=403,
+     *      description="Access denied"
+     * )
+     * OA\Tag(name="Character")
+     */
+    public function index(): JsonResponse
+    {
+        $this->denyAccessUnlessGranted('characterIndex', null);
+
+        $characters = $this->characterService->getAll();
+
+        return JsonResponse::fromJsonString($this->characterService->serializeJson($characters));
+    }
+
+    /**
      * @Route("/character/display/{identifier}",
      * name="character_display",
      * requirements={"identifier": "^([a-z0-9]{40})$"},
@@ -126,46 +166,6 @@ class CharacterController extends AbstractController
     }
 
     /**
-     * @Route("/character",
-     * name="character_redirect_index",
-     * methods={"GET","HEAD"}
-     * )
-     * @OA\Response(
-     *      response=200,
-     *      description="Success"
-     * )
-     * OA\Tag(name="Character")
-     */
-    public function redirectIndex()
-    {
-        return $this->redirectToRoute('character_index');
-    }
-
-    /**
-     * @Route("/character/index",
-     * name="character_index",
-     * methods={"GET","HEAD"}
-     * )
-     * @OA\Response(
-     *      response=200,
-     *      description="Success"
-     * )
-     * @OA\Response(
-     *      response=403,
-     *      description="Access denied"
-     * )
-     * OA\Tag(name="Character")
-     */
-    public function index(): JsonResponse
-    {
-        $this->denyAccessUnlessGranted('characterIndex', null);
-
-        $characters = $this->characterService->getAll();
-
-        return JsonResponse::fromJsonString($this->characterService->serializeJson($characters));
-    }
-
-    /**
      * @Route("/character/delete/{identifier}",
      * name="character_delete",
      * requirements={"identifier": "^([a-z0-9]{40})$"},
@@ -258,6 +258,33 @@ class CharacterController extends AbstractController
         $this->denyAccessUnlessGranted('characterIndex', null);
 
         $images =  $this->characterService->getImages($number, $kind);
+
+        return new JsonResponse($images);
+    }
+
+    /**
+     * Returns characters with intelligence above one passed in parameter
+     * @Route("/character/intelligence/{intelligence}",
+     * name="character_filter_intelligence",
+     * requirements={"intelligence": "^([0-9]{1,3})$"},
+     * methods={"GET","HEAD"}
+     * )
+     * @OA\Response(
+     *      response=200,
+     *      description="Success",
+     *      @Model(type=Character::class)
+     * )
+     * @OA\Response(
+     *      response=403,
+     *      description="Access denied"
+     * )
+     * OA\Tag(name="Character")
+     */
+    public function getCharactersByIntelligence(int $intelligence): JsonResponse
+    {
+        $this->denyAccessUnlessGranted('characterIndex', null);
+
+        $images =  $this->characterService->getFromIntelligence($intelligence);
 
         return new JsonResponse($images);
     }

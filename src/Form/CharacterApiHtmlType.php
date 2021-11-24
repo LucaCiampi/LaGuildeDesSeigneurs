@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\Character;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -51,6 +50,7 @@ class CharacterApiHtmlType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => null,
+            'allow_extra_fields' => true //added
         ]);
     }
 }

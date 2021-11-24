@@ -54,4 +54,10 @@ interface CharacterServiceInterface
     /**
      * Modifies the Character from HTML form
      */
+    public function modifyFromHtml(Character $character, string $data);
+
+    /**
+     * Displays the characters with intelligence greater than passed in url
+     */
+    public function getFromIntelligence(int $intelligence);
 }
